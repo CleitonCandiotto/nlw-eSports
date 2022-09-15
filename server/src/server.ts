@@ -1,8 +1,10 @@
-import express, { request } from 'express'
+import express from 'express'
+import cors from 'cors'
 import { PrismaClient } from '@prisma/client'
 import { convertHoursToStringToMinutes } from './utils/convert-hours-to-string'
 import { convertMinutestoHoursString } from './utils/convert-minuts-to-hours'
-import  cors from 'cors'
+
+
 
 const app = express()
 app.use(express.json())
@@ -23,7 +25,7 @@ app.get('/games', async (request, response) => {
             }
         }
     })
-    return response.json([games]);
+    return response.json(games);
 });
 
 // rota para criação de anuncios
