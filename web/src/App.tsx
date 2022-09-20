@@ -1,6 +1,8 @@
 import { GameBanner } from "./components/GameBanner";
 import { useState, useEffect } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
+import 'keen-slider/keen-slider.min.css'
+import { useKeenSlider } from 'keen-slider/react'
 
 import './styles/input.css';
 
@@ -10,7 +12,6 @@ import { CreateAdModal } from "./components/CreateAdModal"
 
 
 function App() {
-
   interface Game {
     id: string
     title: string
@@ -21,6 +22,16 @@ function App() {
   }
 
   const [games , setGamnes] = useState<Game[]>([])
+
+  const [sliderRef] = useKeenSlider({
+    loop: true,
+    mode: "free",
+    slides: {
+      perView: 5,
+      spacing: 20,
+    },
+  })
+    
 
   useEffect(() => {
     fetch('http://localhost:3333/games')
@@ -39,18 +50,23 @@ function App() {
         Seu <span className=''>duo</span> está aqui.
       </h1>
 
-      <div className='grid grid-cols-6 gap-6 mt-16 mx-32'>
+      
+      <div ref={sliderRef} className='keen-slider mt-16 max-w-6xl'>
         {games.map( game => {
             return (
-              <GameBanner 
-                key={game.id}
-                bannerUrl={game.bannrUrl} 
-                title={game.title} 
-                adsCount={game._count.ads}
-              />
+              <div className="keen-slider__slide">
+                <GameBanner
+                  key={game.id}
+                  bannerUrl={game.bannrUrl}
+                  title={game.title}
+                  adsCount={game._count.ads}
+                  
+                />
+              </div>
             )
-          })}       
+          })}
       </div>
+      
       
       <Dialog.Root>
         <CreateAdBanner/> 
