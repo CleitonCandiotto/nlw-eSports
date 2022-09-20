@@ -28,7 +28,7 @@ function App() {
     mode: "free",
     slides: {
       perView: 5,
-      spacing: 20,
+      spacing: 25,
     },
   })
     
