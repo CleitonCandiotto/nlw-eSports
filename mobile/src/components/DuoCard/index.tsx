@@ -50,7 +50,7 @@ export function DuoCard ({data, onConect}: Props) {
                 size={20}
                 />
                 <Text style={styles.buttonTitle}>
-                    Adicionar
+                    Conectar
                 </Text>
             </TouchableOpacity>
 

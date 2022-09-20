@@ -7,6 +7,7 @@ import { Entypo } from '@expo/vector-icons'
 import { Background } from '../../components/Background'
 import { Heading } from '../../components/Heading'
 import { DuoCard, DuoCardProps } from '../../components/DuoCard'
+import { DuoMacth } from '../../components/DuoMatch'
 import logoImg from '../../assets/logo-nlw-esports.png'
 
 import { styles } from './style'
@@ -18,6 +19,7 @@ import { GameParms } from '../../@types/navigation'
 export function Game (){
 
     const [duos, setDuos] = useState<DuoCardProps[]>([])
+    const [discordDuoSelected, setDiscordDuoSelected] = useState('')
 
     const navigation = useNavigation()
 
@@ -26,6 +28,12 @@ export function Game (){
 
     function pathGoBack () {
         navigation.goBack()
+    }
+
+    async function getDiscordUser(adsId: string){
+        fetch(`http://192.168.0.124:3333/ads/${adsId}/discord`)
+        .then(response => response.json())
+        .then(data => setDiscordDuoSelected(data.discord))
     }
 
     useEffect(() => {
@@ -68,7 +76,7 @@ export function Game (){
                 renderItem={({item}) => (
                     <DuoCard 
                     data={item}
-                    onConect={() => {}}
+                    onConect={() => {getDiscordUser(item.id)}}
                      />
                 )}
                 horizontal
@@ -80,6 +88,12 @@ export function Game (){
                         Não há anúncios publicados ainda...
                     </Text>
                 )}
+                />
+
+                <DuoMacth
+                discord={discordDuoSelected}
+                visible={discordDuoSelected.length > 0}
+                onClose={() => setDiscordDuoSelected('')}
                 />
                 
             </SafeAreaView>
